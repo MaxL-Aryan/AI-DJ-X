@@ -1,3 +1,4 @@
+scoreLeftWrist=0;
 song="";
 leftWristX=0;
 leftWristY=0;
@@ -24,6 +25,18 @@ function setup()
 function draw()
 {
     image(video,0,0,600,450);
+
+    if (scoreLeftWrist>0.2)
+    {
+    fill("#ff0000");
+    stroke("ff0000");
+    circle(leftWristX,leftWristY,20);
+    InNumberLeftWristY=Number(leftWristY);
+    remove_decimals=floor(InNumberLeftWristY);
+    volume=remove_decimals/500;
+    document.getElementById("volume").innerHTML="VOLUME = "+volume;
+    song.setVolume(volume);
+    }
 }
 
 function play()
@@ -43,6 +56,8 @@ function gotPoses(results)
     if(results.length>0)
     {
         console.log(results);
+        scoreLeftWrist=results[0].pose.keypoints[9].score;
+        console.log("Score Left Wrist = "+scoreLeftWrist);
         leftWristX=results[0].pose.leftWrist.x;
         leftWristY=results[0].pose.leftWrist.y;
         console.log("Left Wrist X = "+leftWristX+",Y = "+leftWristY);
